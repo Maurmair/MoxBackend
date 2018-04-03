@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MoxBackend.Models;
+using MoxBackend.Persistence;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,30 +13,65 @@ namespace MoxBackend.Controllers
     public class TargetController : ApiController
     {
         // GET: api/Target
-        public IEnumerable<string> Get()
+        public ArrayList Get()
         {
-            return new string[] { "value1", "value2" };
+            TargetPersistence tp = new TargetPersistence();
+            return tp.getTargets();
         }
 
         // GET: api/Target/5
-        public string Get(int id)
+        public Target Get(DateTime Id)
         {
-            return "value";
+            TargetPersistence tp = new TargetPersistence();
+            Target target = tp.getTarget(Id);
+            return target;
         }
 
         // POST: api/Target
-        public void Post([FromBody]string value)
+        public HttpResponseMessage Post([FromBody]Target TargetValue)
         {
+            TargetPersistence dp = new TargetPersistence();
+            String date;
+            date = dp.saveTarget(TargetValue);
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
+            response.Headers.Location = new Uri(Request.RequestUri, String.Format("/{0}", date));
+            return response;
         }
 
         // PUT: api/Target/5
-        public void Put(int id, [FromBody]string value)
+        public HttpResponseMessage Put(DateTime Id, [FromBody]Target targetValue)
         {
+            TargetPersistence tp = new TargetPersistence();
+            bool recordExisted = false;
+            recordExisted = tp.updateTarget(Id, targetValue);
+            HttpResponseMessage response;
+            if (recordExisted)
+            {
+                response = Request.CreateResponse(HttpStatusCode.NoContent);
+            }
+            else
+            {
+                response = Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            return response;
         }
 
         // DELETE: api/Target/5
-        public void Delete(int id)
+        public HttpResponseMessage Delete(DateTime Id)
         {
+            TargetPersistence tp = new TargetPersistence();
+            bool recordExisted = false;
+            recordExisted = tp.deleteTarget(Id);
+            HttpResponseMessage response;
+            if (recordExisted)
+            {
+                response = Request.CreateResponse(HttpStatusCode.NoContent);
+            }
+            else
+            {
+                response = Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            return response;
         }
     }
 }

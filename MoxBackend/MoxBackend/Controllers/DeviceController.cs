@@ -20,10 +20,10 @@ namespace MoxBackend.Controllers
         }
 
         // GET: api/Device/5
-        public Device Get(String DeviceId)
+        public Device Get(String Id)
         {
             DevicePersistence dp = new DevicePersistence();
-            Device device = dp.getDevice(DeviceId);
+            Device device = dp.getDevice(Id);
             return device;
         }
 
@@ -40,11 +40,11 @@ namespace MoxBackend.Controllers
         }
 
         // PUT: api/Device/5
-        public HttpResponseMessage Put(String DeviceId, [FromBody]Device DeviceValue)
+        public HttpResponseMessage Put(String Id, [FromBody]Device DeviceValue)
         {
             DevicePersistence dp = new DevicePersistence();
             bool recordExisted = false;
-            recordExisted = dp.updateDevice(DeviceId, DeviceValue);
+            recordExisted = dp.updateDevice(Id, DeviceValue);
             HttpResponseMessage response;
             if (recordExisted)
             {
@@ -58,11 +58,11 @@ namespace MoxBackend.Controllers
         }
 
         // DELETE: api/Device/5
-        public HttpResponseMessage Delete(String DeviceId)
+        public HttpResponseMessage Delete(String Id)
         {
             DevicePersistence dp = new DevicePersistence();
             bool recordExisted = false;
-            recordExisted = dp.deleteDevice(DeviceId);
+            recordExisted = dp.deleteDevice(Id);
             HttpResponseMessage response;
             if (recordExisted)
             {

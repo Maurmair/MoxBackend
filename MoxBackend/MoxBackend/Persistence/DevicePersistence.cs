@@ -38,18 +38,18 @@ namespace MoxBackend.Persistence
             return id;
         }
 
-        public Device getDevice(String DeviceId)
+        public Device getDevice(String Id)
         {
             Device device = new Device();
             MySql.Data.MySqlClient.MySqlDataReader mySqlReader = null;
-            String sqlString = "SELECT * FROM Device WHERE DeviceId = " + DeviceId;
+            String sqlString = "SELECT * FROM Device WHERE DeviceId = '" + Id + "'";
+
             MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
             mySqlReader = cmd.ExecuteReader();
             if (mySqlReader.Read())
-            {
-                device.RecordId = mySqlReader.GetInt32(0);
-                device.DeviceId = mySqlReader.GetString(1);
-                device.CoupledDevice = mySqlReader.GetString(2);
+            {                
+                device.DeviceId = mySqlReader.GetString(0);
+                device.CoupledDevice = mySqlReader.GetString(1);
                 return device;
             }
             else
@@ -68,26 +68,25 @@ namespace MoxBackend.Persistence
             while (mySqlReader.Read())
             {
                 Device device = new Device();
-                device.RecordId = mySqlReader.GetInt32(0);
-                device.DeviceId = mySqlReader.GetString(1);
-                device.CoupledDevice = mySqlReader.GetString(2);
+                device.DeviceId = mySqlReader.GetString(0);
+                device.CoupledDevice = mySqlReader.GetString(1);
                 deviceArray.Add(device);
             }
             return deviceArray;
         }
 
-        public bool deleteDevice(String DeviceId)
+        public bool deleteDevice(String Id)
         {
             Device device = new Device();
             MySql.Data.MySqlClient.MySqlDataReader mySqlReader = null;
 
-            String sqlString = "SELECT * FROM Device WHERE DeviceId = " + DeviceId;
+            String sqlString = "SELECT * FROM Device WHERE DeviceId = '" + Id + "'";
             MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
             mySqlReader = cmd.ExecuteReader();
             if (mySqlReader.Read())
             {
                 mySqlReader.Close();
-                sqlString = "DELETE FROM Device WHERE DeviceId = " + DeviceId;
+                sqlString = "DELETE FROM Device WHERE DeviceId = '" + Id + "'";
                 cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
 
                 cmd.ExecuteNonQuery();
@@ -98,18 +97,18 @@ namespace MoxBackend.Persistence
                 return false;
             }
         }
-        public bool updateDevice(String DeviceId, Device deviceToSave)
+        public bool updateDevice(String Id, Device deviceToSave)
         {
             MySql.Data.MySqlClient.MySqlDataReader mySqlReader = null;
 
-            String sqlString = "SELECT * FROM Device WHERE ID = " + DeviceId;
+            String sqlString = "SELECT * FROM Device WHERE DeviceID = '" + Id + "'";
             MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
             mySqlReader = cmd.ExecuteReader();
             if (mySqlReader.Read())
             {
 
                 mySqlReader.Close();
-                sqlString = "UPDATE Device SET DeviceId='" + deviceToSave.DeviceId + "', CoupledDevice='" + deviceToSave.CoupledDevice + "' WHERE DeviceId = " + DeviceId;
+                sqlString = "UPDATE Device SET DeviceId='" + deviceToSave.DeviceId + "', CoupledDevice='" + deviceToSave.CoupledDevice + "' WHERE DeviceId = '" + Id + "'";
                 cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
                 cmd.ExecuteNonQuery();
                 return true;

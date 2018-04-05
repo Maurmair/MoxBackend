@@ -132,3 +132,6 @@ C:\Projects\MoxBackend\MoxBackend\MoxBackend\MoxBackend\obj\Debug\MoxBackend.csp
 C:\Projects\MoxBackend\MoxBackend\MoxBackend\MoxBackend\obj\Debug\MoxBackend.csproj.CopyComplete
 C:\Projects\MoxBackend\MoxBackend\MoxBackend\MoxBackend\obj\Debug\MoxBackend.dll
 C:\Projects\MoxBackend\MoxBackend\MoxBackend\MoxBackend\obj\Debug\MoxBackend.pdb
+C:\Projects\MoxBackend\MoxBackend\MoxBackend\MoxBackend\bin\System.Web.Cors.dll
+C:\Projects\MoxBackend\MoxBackend\MoxBackend\MoxBackend\bin\System.Web.Http.Cors.dll
+C:\Projects\MoxBackend\MoxBackend\MoxBackend\MoxBackend\bin\System.Web.Http.Cors.xml

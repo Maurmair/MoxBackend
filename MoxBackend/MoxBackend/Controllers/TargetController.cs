@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace MoxBackend.Controllers
 {
+    [System.Web.Http.Cors.EnableCors(origins: "*", headers: "*", methods: "*")]
     public class TargetController : ApiController
     {
         // GET: api/Target

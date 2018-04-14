@@ -29,10 +29,11 @@ namespace MoxBackend.Persistence
 
         public String saveTarget(Target targetToSave)
         {
-            string sqlString = "INSERT INTO Target (Date, ActiveMinutes, Steps) VALUES ('"
+            string sqlString = "INSERT INTO Target (Date, ActiveMinutes, Steps, DeviceId) VALUES ('"
                 + targetToSave.Date.ToString("yyyy-MM-dd") + "',"
                 + targetToSave.ActiveMinutes + ","
-                + targetToSave.Steps + ")";
+                + targetToSave.Steps + ",'"
+                + targetToSave.DeviceId + "')";
             MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
             cmd.ExecuteNonQuery();
             String id = cmd.LastInsertedId.ToString();
@@ -53,6 +54,7 @@ namespace MoxBackend.Persistence
                 target.Date = mySqlReader.GetDateTime(0);
                 target.ActiveMinutes = mySqlReader.GetInt32(1);
                 target.Steps = mySqlReader.GetInt32(2);
+                target.DeviceId = mySqlReader.GetString(3);
                 return target;
             }
             else
@@ -74,6 +76,7 @@ namespace MoxBackend.Persistence
                 target.Date = mySqlReader.GetDateTime(0);
                 target.ActiveMinutes = mySqlReader.GetInt32(1);
                 target.Steps = mySqlReader.GetInt32(2);
+                target.DeviceId = mySqlReader.GetString(3);
                 targetArray.Add(target);
             }
             return targetArray;
@@ -114,7 +117,8 @@ namespace MoxBackend.Persistence
                 sqlString = "UPDATE Target Set Date='"
                     + targetToSave.Date.ToString("yyyy-MM-dd") + "', ActiveMinutes= "
                     + targetToSave.ActiveMinutes + ", Steps="
-                    + targetToSave.Steps + " WHERE Date = '"
+                    + targetToSave.Steps + ", DeviceId='" 
+                    + targetToSave.DeviceId + "' WHERE Date = '"
                     + Id.ToString("yyyy-MM-dd") + "'";
                 cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
                 cmd.ExecuteNonQuery();

@@ -28,10 +28,11 @@ namespace MoxBackend.Persistence
 
         public String saveInputData(InputData inputDataToSave)
         {
-            string sqlString = "INSERT INTO InputData (Date, ActiveMinutesReached, StepsReached) VALUES ('"
+            string sqlString = "INSERT INTO InputData (Date, ActiveMinutesReached, StepsReached, DeviceId) VALUES ('"
                 + inputDataToSave.Date.ToString("yyyy-MM-dd") + "',"
                 + inputDataToSave.ActiveMinutesReached + ","
-                + inputDataToSave.StepsReached + ")";
+                + inputDataToSave.StepsReached + ",'" 
+                + inputDataToSave.DeviceId + "')";
             MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
             cmd.ExecuteNonQuery();
             String id = cmd.LastInsertedId.ToString();
@@ -42,7 +43,7 @@ namespace MoxBackend.Persistence
         {
             InputData inputData = new InputData();
             MySql.Data.MySqlClient.MySqlDataReader mySqlReader = null;
-            String sqlString = "SELECT * FROM InputDate WHERE Date = '" + Id.ToString("yyyy-MM-dd") + "'";
+            String sqlString = "SELECT * FROM InputData WHERE Date = '" + Id.ToString("yyyy-MM-dd") + "'";
 
             MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
             mySqlReader = cmd.ExecuteReader();
@@ -52,6 +53,7 @@ namespace MoxBackend.Persistence
                 inputData.Date = mySqlReader.GetDateTime(0);
                 inputData.ActiveMinutesReached = mySqlReader.GetInt32(1);
                 inputData.StepsReached = mySqlReader.GetInt32(2);
+                inputData.DeviceId = mySqlReader.GetString(3);            
                 return inputData;
             }
             else
@@ -73,6 +75,7 @@ namespace MoxBackend.Persistence
                 inputData.Date = mySqlReader.GetDateTime(0);
                 inputData.ActiveMinutesReached = mySqlReader.GetInt32(1);
                 inputData.StepsReached = mySqlReader.GetInt32(2);
+                inputData.DeviceId = mySqlReader.GetString(3);
                 inputDataArray.Add(inputData);
             }
             return inputDataArray;
@@ -113,7 +116,8 @@ namespace MoxBackend.Persistence
                 sqlString = "UPDATE InputData Set Date='"
                     + inputDataToSave.Date.ToString("yyyy-MM-dd") + "', ActiveMinutesReached= "
                     + inputDataToSave.ActiveMinutesReached + ", StepsReached="
-                    + inputDataToSave.StepsReached + " WHERE Date = '"
+                    + inputDataToSave.StepsReached + ", DeviceId='"
+                    + inputDataToSave.DeviceId + "' WHERE Date = '"
                     + Id.ToString("yyyy-MM-dd") + "'";
                 cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
                 cmd.ExecuteNonQuery();

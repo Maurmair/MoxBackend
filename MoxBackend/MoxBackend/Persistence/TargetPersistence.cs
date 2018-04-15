@@ -29,15 +29,30 @@ namespace MoxBackend.Persistence
 
         public String saveTarget(Target targetToSave)
         {
-            string sqlString = "INSERT INTO Target (Date, ActiveMinutes, Steps, DeviceId) VALUES ('"
-                + targetToSave.Date.ToString("yyyy-MM-dd") + "',"
-                + targetToSave.ActiveMinutes + ","
-                + targetToSave.Steps + ",'"
-                + targetToSave.DeviceId + "')";
+            Target target = new Target();
+            MySql.Data.MySqlClient.MySqlDataReader mySqlReader = null;
+            String sqlString = "SELECT * FROM Target WHERE Date = '" + targetToSave.Date.ToString("yyyy-MM-dd") + "' AND DeviceId='" + targetToSave.DeviceId + "'";
             MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
-            cmd.ExecuteNonQuery();
-            String id = cmd.LastInsertedId.ToString();
-            return id;
+            mySqlReader = cmd.ExecuteReader();
+            if (mySqlReader.Read())
+            {
+                return "Combinatie van Datum en Apparaatnaam bestaan reed.";
+            }
+            else {
+                mySqlReader.Close();
+                DateTime targetDateDayBefore = targetToSave.Date.AddDays(-1);
+                Target targetYesterday = getTarget(targetDateDayBefore, targetToSave.DeviceId);
+                mySqlReader.Close();
+                sqlString = "INSERT INTO Target (Date, ActiveMinutes, Steps, DeviceId) VALUES ('"
+              + targetToSave.Date.ToString("yyyy-MM-dd") + "',"
+              + targetYesterday.ActiveMinutes + ","
+              + targetYesterday.Steps + ",'"
+              + targetYesterday.DeviceId + "')";
+                cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
+                cmd.ExecuteNonQuery();
+                String id = cmd.LastInsertedId.ToString();
+                return id;
+            }            
         }
 
         public Target getTarget(DateTime Id)
@@ -59,6 +74,32 @@ namespace MoxBackend.Persistence
             }
             else
             {
+                return null;
+            }
+        }
+
+        public Target getTarget(DateTime Id, String DeviceId)
+        {
+            Target target = new Target();
+            MySql.Data.MySqlClient.MySqlDataReader mySqlReader = null;
+            String sqlString = "SELECT * FROM Target WHERE Date = '" + Id.ToString("yyyy-MM-dd") + "' AND DeviceId='" + DeviceId + "'";
+
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
+            mySqlReader = cmd.ExecuteReader();
+
+            if (mySqlReader.Read())
+            {
+                target.Date = mySqlReader.GetDateTime(0);
+                target.ActiveMinutes = mySqlReader.GetInt32(1);
+                target.Steps = mySqlReader.GetInt32(2);
+                target.DeviceId = mySqlReader.GetString(3);
+                mySqlReader.Close();
+                return target;
+                
+            }
+            else
+            {
+                mySqlReader.Close();
                 return null;
             }
         }
@@ -105,10 +146,12 @@ namespace MoxBackend.Persistence
             }
         }
 
-        public bool updateTarget(DateTime Id, Target targetToSave)
+        public bool updateTarget(DateTime Id, Target targetToSave, String DeviceId)
         {
+            DateTime today = Id;
+            DateTime yesterday = Id.AddDays(-1);
             MySql.Data.MySqlClient.MySqlDataReader mySqlReader = null;
-            String sqlString = "SELECT * FROM Target WHERE Date = '" + Id.ToString("yyyy-MM-dd") + "'";
+            String sqlString = "SELECT * FROM Target WHERE Date = '" + Id.ToString("yyyy-MM-dd") +"' AND DeviceId='" + DeviceId + "'";
             MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
             mySqlReader = cmd.ExecuteReader();
             if (mySqlReader.Read())
@@ -119,14 +162,14 @@ namespace MoxBackend.Persistence
                     + targetToSave.ActiveMinutes + ", Steps="
                     + targetToSave.Steps + ", DeviceId='" 
                     + targetToSave.DeviceId + "' WHERE Date = '"
-                    + Id.ToString("yyyy-MM-dd") + "'";
+                    + Id.ToString("yyyy-MM-dd") + "' AND DeviceId='" + DeviceId + "'";
                 cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
                 cmd.ExecuteNonQuery();
                 return true;
             }
             else
-            {
-                return false;
+            {      
+                return false;        
             }
         }
     }

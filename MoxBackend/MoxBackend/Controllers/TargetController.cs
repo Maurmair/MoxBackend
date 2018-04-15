@@ -28,6 +28,15 @@ namespace MoxBackend.Controllers
             return target;
         }
 
+
+        // GET: api/Target/5
+        public Target Get(DateTime Id, String DeviceId)
+        {
+            TargetPersistence tp = new TargetPersistence();
+            Target target = tp.getTarget(Id, DeviceId);
+            return target;
+        }
+
         // POST: api/Target
         public HttpResponseMessage Post([FromBody]Target TargetValue)
         {
@@ -40,11 +49,11 @@ namespace MoxBackend.Controllers
         }
 
         // PUT: api/Target/5
-        public HttpResponseMessage Put(DateTime Id, [FromBody]Target targetValue)
+        public HttpResponseMessage Put(DateTime Id, [FromBody]Target targetValue, String DeviceId)
         {
             TargetPersistence tp = new TargetPersistence();
             bool recordExisted = false;
-            recordExisted = tp.updateTarget(Id, targetValue);
+            recordExisted = tp.updateTarget(Id, targetValue, DeviceId);
             HttpResponseMessage response;
             if (recordExisted)
             {

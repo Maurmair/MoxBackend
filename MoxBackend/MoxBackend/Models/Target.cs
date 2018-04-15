@@ -10,6 +10,6 @@ namespace MoxBackend.Models
         public DateTime Date { get; set; }
         public long ActiveMinutes { get; set; }
         public long Steps { get; set; }
-        public string DeviceId { get; set; }
+        public String DeviceId { get; set; }
     }
 }

@@ -42,16 +42,33 @@ namespace MoxBackend.Persistence
                 mySqlReader.Close();
                 DateTime targetDateDayBefore = targetToSave.Date.AddDays(-1);
                 Target targetYesterday = getTarget(targetDateDayBefore, targetToSave.DeviceId);
-                mySqlReader.Close();
-                sqlString = "INSERT INTO Target (Date, ActiveMinutes, Steps, DeviceId) VALUES ('"
-              + targetToSave.Date.ToString("yyyy-MM-dd") + "',"
-              + targetYesterday.ActiveMinutes + ","
-              + targetYesterday.Steps + ",'"
-              + targetYesterday.DeviceId + "')";
-                cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
-                cmd.ExecuteNonQuery();
-                String id = cmd.LastInsertedId.ToString();
-                return id;
+                if (targetYesterday != null)
+                {
+                    mySqlReader.Close();
+                    sqlString = "INSERT INTO Target (Date, ActiveMinutes, Steps, DeviceId) VALUES ('"
+                  + targetToSave.Date.ToString("yyyy-MM-dd") + "',"
+                  + targetYesterday.ActiveMinutes + ","
+                  + targetYesterday.Steps + ",'"
+                  + targetYesterday.DeviceId + "')";
+                    cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
+                    cmd.ExecuteNonQuery();
+                    String id = cmd.LastInsertedId.ToString();
+                    return id;
+                }
+                else
+                {
+                    mySqlReader.Close();
+                    sqlString = "INSERT INTO Target (Date, ActiveMinutes, Steps, DeviceId) VALUES ('"
+                  + targetToSave.Date.ToString("yyyy-MM-dd") + "',"
+                  + targetToSave.ActiveMinutes + ","
+                  + targetToSave.Steps + ",'"
+                  + targetToSave.DeviceId + "')";
+                    cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
+                    cmd.ExecuteNonQuery();
+                    String id = cmd.LastInsertedId.ToString();
+                    return id;
+                }
+                
             }            
         }
 

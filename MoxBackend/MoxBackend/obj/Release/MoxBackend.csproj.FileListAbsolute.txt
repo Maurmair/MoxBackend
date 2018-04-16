@@ -138,3 +138,4 @@ C:\Projects\MoxBackend\MoxBackend\MoxBackend\obj\Release\MoxBackend.csproj.CoreC
 C:\Projects\MoxBackend\MoxBackend\MoxBackend\obj\Release\MoxBackend.csproj.CopyComplete
 C:\Projects\MoxBackend\MoxBackend\MoxBackend\obj\Release\MoxBackend.dll
 C:\Projects\MoxBackend\MoxBackend\MoxBackend\obj\Release\MoxBackend.pdb
+C:\Projects\MoxBackend\MoxBackend\MoxBackend\MoxBackend\bin\MySql.Data.xml

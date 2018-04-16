@@ -138,3 +138,4 @@ C:\Projects\MoxBackend\MoxBackend\MoxBackend\MoxBackend\bin\System.Web.Http.Cors
 C:\Projects\MoxBackend\MoxBackend\MoxBackend\bin\System.Web.Cors.dll
 C:\Projects\MoxBackend\MoxBackend\MoxBackend\bin\System.Web.Http.Cors.dll
 C:\Projects\MoxBackend\MoxBackend\MoxBackend\bin\System.Web.Http.Cors.xml
+C:\Projects\MoxBackend\MoxBackend\MoxBackend\MoxBackend\bin\MySql.Data.xml

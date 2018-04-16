@@ -55,7 +55,7 @@ namespace MoxBackend.Persistence
                     String id = cmd.LastInsertedId.ToString();
                     return id;
                 }
-                else
+                else if (targetYesterday == null)
                 {
                     mySqlReader.Close();
                     sqlString = "INSERT INTO Target (Date, ActiveMinutes, Steps, DeviceId) VALUES ('"
@@ -67,8 +67,10 @@ namespace MoxBackend.Persistence
                     cmd.ExecuteNonQuery();
                     String id = cmd.LastInsertedId.ToString();
                     return id;
-                }
-                
+                } else
+                {
+                    return null;
+                }                
             }            
         }
 
@@ -179,7 +181,7 @@ namespace MoxBackend.Persistence
                     + targetToSave.ActiveMinutes + ", Steps="
                     + targetToSave.Steps + ", DeviceId='" 
                     + targetToSave.DeviceId + "' WHERE Date = '"
-                    + Id.ToString("yyyy-MM-dd") + "' AND DeviceId='" + DeviceId + "'";
+                    + targetToSave.Date.ToString("yyyy-MM-dd") + "' AND DeviceId='" + targetToSave.DeviceId + "'";
                 cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
                 cmd.ExecuteNonQuery();
                 return true;

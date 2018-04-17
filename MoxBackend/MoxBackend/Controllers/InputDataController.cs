@@ -28,6 +28,15 @@ namespace MoxBackend.Controllers
             return inputData;
         }
 
+        public InputData Get(DateTime Id, String DeviceId)
+        {
+            InputDataPersistence ip = new InputDataPersistence();
+            InputData inputData = ip.getInputData(Id);
+            return inputData;
+        }
+
+
+
         // POST: api/InputData
         public HttpResponseMessage Post([FromBody]InputData inputDataValue)
         {

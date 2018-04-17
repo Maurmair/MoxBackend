@@ -12,14 +12,9 @@ namespace MoxBackend.Controllers
 {
     [System.Web.Http.Cors.EnableCors(origins: "*", headers: "*", methods: "*")]
     public class InputDataController : ApiController
-    {
-        // GET: api/InputData
-        public ArrayList Get()
-        {
-            InputDataPersistence ip = new InputDataPersistence();
-            return ip.getAllInputData();
-        }       
+    {         
 
+        // Get api/InputData?Id=&Device=   
         public InputData Get(DateTime Id, String DeviceId)
         {
             InputDataPersistence ip = new InputDataPersistence();

@@ -43,7 +43,7 @@ namespace MoxBackend.Persistence
         {
             InputData inputData = new InputData();
             MySql.Data.MySqlClient.MySqlDataReader mySqlReader = null;
-            String sqlString = "SELECT * FROM InputData WHERE Date = '" + Id.ToString("yyyy-MM-dd") + "' AND DeviceId='" + DeviceId + "'"; ;
+            String sqlString = "SELECT * FROM InputData WHERE Date = '" + Id.ToString("yyyy-MM-dd") + "' AND DeviceId='" + DeviceId + "'"; 
 
             MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
             mySqlReader = cmd.ExecuteReader();
@@ -60,26 +60,7 @@ namespace MoxBackend.Persistence
             {
                 return null;
             }
-        }
-
-        public ArrayList getAllInputData()
-        {
-            ArrayList inputDataArray = new ArrayList();
-            MySql.Data.MySqlClient.MySqlDataReader mySqlReader = null;
-            String sqlString = "SELECT * FROM InputData";
-            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
-            mySqlReader = cmd.ExecuteReader();
-            while (mySqlReader.Read())
-            {
-                InputData inputData = new InputData();
-                inputData.Date = mySqlReader.GetDateTime(0);
-                inputData.ActiveMinutesReached = mySqlReader.GetInt32(1);
-                inputData.StepsReached = mySqlReader.GetInt32(2);
-                inputData.DeviceId = mySqlReader.GetString(3);
-                inputDataArray.Add(inputData);
-            }
-            return inputDataArray;
-        }
+        }        
 
         public bool deleteInputData(DateTime Id)
         {

@@ -104,6 +104,40 @@ namespace MoxBackend.Persistence
             }
         }
 
+        public bool updateInputData(DateTime Id, InputData inputDataToSave, String DeviceId)
+        {
+            InputData myInputData = new InputData();
+            MySql.Data.MySqlClient.MySqlDataReader mySqlReader = null;
+            String sqlString = "SELECT * FROM InputData WHERE Date = '" + Id.ToString("yyyy-MM-dd") + "' AND DeviceId='" + inputDataToSave.DeviceId + "'"; ;
+            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
+            mySqlReader = cmd.ExecuteReader();
+            if (mySqlReader.Read())
+            {
+                mySqlReader.Close();
+                sqlString = "UPDATE InputData Set Date='"
+                    + inputDataToSave.Date.ToString("yyyy-MM-dd") + "', ActiveMinutesReached= "
+                    + inputDataToSave.ActiveMinutesReached + ", StepsReached="
+                    + inputDataToSave.StepsReached + ", DeviceId='"
+                    + inputDataToSave.DeviceId + "' WHERE Date = '"
+                    + Id.ToString("yyyy-MM-dd") + "' AND DeviceId='" + inputDataToSave.DeviceId + "'";
+                cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            else
+            {
+                mySqlReader.Close();
+                sqlString = "INSERT INTO InputData (Date, ActiveMinutesReached, StepsReached, DeviceId) VALUES ('"
+                  + inputDataToSave.Date.ToString("yyyy-MM-dd") + "',"
+                  + inputDataToSave.ActiveMinutesReached + ","
+                  + inputDataToSave.StepsReached + ",'"
+                  + inputDataToSave.DeviceId + "')";
+                cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+        }
+
         public bool updateInputData(DateTime Id, InputData inputDataToSave)
         {
             MySql.Data.MySqlClient.MySqlDataReader mySqlReader = null;

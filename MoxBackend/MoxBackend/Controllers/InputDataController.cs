@@ -40,11 +40,11 @@ namespace MoxBackend.Controllers
         }
 
         // PUT: api/InputData/5
-        public HttpResponseMessage Put(DateTime Id, [FromBody]InputData inputDataValue)
+        public HttpResponseMessage Put(DateTime Id, [FromBody]InputData inputDataValue, String DeviceId)
         {
             InputDataPersistence ip = new InputDataPersistence();
             bool recordExisted = false;
-            recordExisted = ip.updateInputData(Id, inputDataValue);
+            recordExisted = ip.updateInputData(Id, inputDataValue, DeviceId);
             HttpResponseMessage response;
             if (recordExisted)
             {

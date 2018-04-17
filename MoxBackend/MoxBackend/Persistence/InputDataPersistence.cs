@@ -39,29 +39,6 @@ namespace MoxBackend.Persistence
             return id;
         }
 
-        public InputData getInputData(DateTime Id)
-        {
-            InputData inputData = new InputData();
-            MySql.Data.MySqlClient.MySqlDataReader mySqlReader = null;
-            String sqlString = "SELECT * FROM InputData WHERE Date = '" + Id.ToString("yyyy-MM-dd") + "'";
-
-            MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(sqlString, conn);
-            mySqlReader = cmd.ExecuteReader();
-
-            if (mySqlReader.Read())
-            {
-                inputData.Date = mySqlReader.GetDateTime(0);
-                inputData.ActiveMinutesReached = mySqlReader.GetInt32(1);
-                inputData.StepsReached = mySqlReader.GetInt32(2);
-                inputData.DeviceId = mySqlReader.GetString(3);            
-                return inputData;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         public InputData getInputData(DateTime Id, String DeviceId)
         {
             InputData inputData = new InputData();

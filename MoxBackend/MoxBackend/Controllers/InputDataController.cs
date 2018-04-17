@@ -18,24 +18,14 @@ namespace MoxBackend.Controllers
         {
             InputDataPersistence ip = new InputDataPersistence();
             return ip.getAllInputData();
-        }
-
-        // GET: api/InputData/5
-        public InputData Get(DateTime Id)
-        {
-            InputDataPersistence ip = new InputDataPersistence();
-            InputData inputData = ip.getInputData(Id);
-            return inputData;
-        }
+        }       
 
         public InputData Get(DateTime Id, String DeviceId)
         {
             InputDataPersistence ip = new InputDataPersistence();
-            InputData inputData = ip.getInputData(Id);
+            InputData inputData = ip.getInputData(Id, DeviceId);
             return inputData;
         }
-
-
 
         // POST: api/InputData
         public HttpResponseMessage Post([FromBody]InputData inputDataValue)
